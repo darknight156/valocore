@@ -1,0 +1,6 @@
+{
+  "name": "VALOCORE",
+  "description": "Personal Valorant performance analytics, AI coaching, interactive tactical strategy planner, and precision aim trainer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
