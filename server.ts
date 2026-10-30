@@ -38,7 +38,10 @@ const app = express();
 app.use(express.json({ limit: '25mb' }));
 
 // Initialize local SQLite database
-const db = new Database('valocore.sqlite');
+const dbPath = process.env.VERCEL
+  ? path.join('/tmp', 'valocore.sqlite')
+  : path.resolve(process.cwd(), 'valocore.sqlite');
+const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 
 function initDatabase() {
@@ -857,6 +860,8 @@ app.post('/api/ai/strategy', async (req, res) => {
   }
 });
 
+export { app };
+
 async function startServer() {
   const PORT = 3000;
 
@@ -879,4 +884,9 @@ async function startServer() {
   });
 }
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer().catch((error) => {
+    console.error('Failed to start VALOCORE server:', error);
+    process.exitCode = 1;
+  });
+}
